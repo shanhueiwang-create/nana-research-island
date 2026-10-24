@@ -43,3 +43,36 @@
 @media(max-width:600px){.quest-invite{flex-direction:column;align-items:stretch;padding:16px}.quest-panel{padding:23px 15px}.quest-star{width:29px;height:29px;font-size:17px}}
 @media(prefers-reduced-motion:reduce){.quest-star{animation:none!important}}
 @media print{body>*:not(.quest-overlay){display:none!important}.quest-overlay{position:static;padding:0;display:block!important}.quest-backdrop,.quest-close,.quest-actions,.quest-certificate input,.quest-certificate label{display:none!important}.quest-panel{box-shadow:none;width:100%;max-height:none;overflow:visible;padding:0}.quest-certificate{min-height:60vh;padding:65px 30px}.cert-print-name{display:block!important}}
+
+/* V2.2: transparent game sprites, never full biography cards. */
+.island-walkers{z-index:7;overflow:visible}
+.island-walker{width:clamp(54px,7vw,94px);height:clamp(75px,10vw,130px);overflow:visible}
+.island-walker img{width:100%;height:100%;max-width:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 3px 3px #17152e8c)}
+.walker-nana{left:77%;top:53%}.walker-hua{left:26%;top:66%}
+.walker-tag{font-size:11px;max-width:140px}
+.walker-coffee{right:-5px;top:52%}
+.quest-overlay{position:fixed!important;inset:0!important;z-index:2147483000!important;display:grid!important;place-items:center!important;isolation:isolate!important;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom))!important;overflow:hidden!important}
+.quest-overlay[hidden]{display:none!important}
+.quest-backdrop{position:absolute!important;inset:0!important;background:rgba(12,14,38,.82)!important}
+.quest-panel{position:relative!important;inset:auto!important;margin:auto!important;transform:none!important;display:block!important;width:min(680px,calc(100vw - 28px))!important;max-height:min(88dvh,850px)!important;overflow-y:auto!important;overscroll-behavior:contain!important;border:2px solid #e5d1ff!important;border-radius:22px!important;background:#fffdfb!important;padding:clamp(18px,3vw,32px)!important;box-shadow:0 30px 95px #0009!important}
+.quest-answer{display:block;width:100%;min-height:51px;font-size:clamp(15px,1.4vw,17px);line-height:1.55;white-space:normal;word-break:break-word;color:#25213e!important}
+.quest-answers{display:grid;grid-template-columns:1fr;gap:12px}
+.quest-close{z-index:3;width:42px;height:42px;font-size:20px}
+body.quest-open{overflow:hidden}
+#certificatePrintRoot{display:none}
+@media(max-width:600px){.walker-nana{left:77%;top:51%}.walker-hua{left:26%;top:65%}.island-walker{width:55px;height:76px}.walker-tag{font-size:9px}.quest-panel{max-height:86dvh!important;padding:18px!important}.quest-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quest-choice{min-height:100px}}
+@page{size:A4 landscape;margin:0}
+@media print{
+ html,body{margin:0!important;padding:0!important;width:297mm!important;height:210mm!important;background:#fff!important;overflow:visible!important}
+ body>*:not(#certificatePrintRoot){display:none!important}
+ #certificatePrintRoot{display:flex!important;position:fixed!important;inset:0!important;z-index:2147483647!important;width:297mm!important;height:210mm!important;align-items:center!important;justify-content:center!important;background:#fff!important;visibility:visible!important;print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important}
+ #certificatePrintRoot *{visibility:visible!important}
+ .certificate-paper{box-sizing:border-box;width:278mm;height:190mm;border:10px double #b58a3e;border-radius:10px;outline:2px solid #dcc58c;outline-offset:-19px;background:linear-gradient(145deg,#fffdf2,#f6f0ff);color:#292042;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18mm 15mm;page-break-inside:avoid}
+ .certificate-eyebrow{font-family:Georgia,serif;letter-spacing:3px;font-size:14pt;color:#886b38}
+ .certificate-paper h1{font-size:35pt;margin:12mm 0 8mm;color:#322457}
+ .certificate-paper p{font-size:15pt;margin:3mm 0}
+ .certificate-person{font-size:33pt;font-weight:bold;border-bottom:2px solid #b58a3e;min-width:120mm;margin:9mm auto 5mm;padding:0 10mm 3mm;overflow-wrap:anywhere}
+ .certificate-stars{font-size:25pt;letter-spacing:6px;color:#c69b3d;margin:5mm 0}
+ .certificate-date{font-size:13pt!important;color:#6d6277}
+ .certificate-paper small{font-size:10pt;margin-top:8mm;color:#6d6277}
+}

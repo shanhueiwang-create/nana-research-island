@@ -9,7 +9,7 @@ const canWalk=()=>!reduce.matches&&!document.hidden&&home.classList.contains('ac
 function stop(){active.forEach(a=>a.cancel());active=[];walkers.forEach(w=>{w.el?.classList.remove('is-strolling');if(w.el){w.el.style.transform='translate(-50%,-50%)';}})}
 function stroll(w){if(!w.el||!canWalk())return;w.el.classList.add('is-strolling');
  const dx=w.range*(Math.random()>.5?1:-1),dy=(Math.random()-.5)*4;
- const a=w.el.animate([{transform:'translate(-50%,-50%) translate(0,0)'},{transform:`translate(-50%,-50%) translate(${dx/2}vw,${dy/2}vw)`,offset:.5},{transform:'translate(-50%,-50%) translate(0,0)'}],{duration:8500+Math.random()*3500,easing:'ease-in-out'});
+ const a=w.el.animate([{transform:'translate(-50%,-50%) translate(0,0)'},{transform:`translate(-50%,-50%) translate(${dx/2}%,${dy/2}%)`,offset:.5},{transform:'translate(-50%,-50%) translate(0,0)'}],{duration:8500+Math.random()*3500,easing:'ease-in-out'});
  active.push(a);a.onfinish=()=>{active=active.filter(x=>x!==a);w.el.classList.remove('is-strolling');if(canWalk())setTimeout(()=>{if(canWalk())stroll(w)},2500+Math.random()*3500)};
 }
 function refresh(){stop();if(canWalk())walkers.forEach((w,i)=>setTimeout(()=>{if(canWalk())stroll(w)},1000+i*1400))}
