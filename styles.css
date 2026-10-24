@@ -142,3 +142,17 @@ body.quest-open{overflow:hidden}
 /* V2.7: let inline map coordinates win over previous fixed NPC positions. */
 #homeView #islandWalkers .island-walker{left:var(--npc-x,76%);top:var(--npc-y,61%)}
 #homeView #islandWalkers{overflow:visible!important}
+
+/* V4.1 — AI × Another Me assessment comparison */
+.assessment-comparison{margin:22px 0 20px;padding:18px;border:1px solid #d9c9ee;border-radius:18px;background:#fcf9ff;color:#332b47}
+.assessment-comparison h3{margin:0 0 8px;font-size:1.12rem;color:#51377a}
+.assessment-comparison-intro{margin:0 0 12px;font-size:.92rem;line-height:1.65}
+.assessment-table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.assessment-table{width:100%;min-width:480px;border-collapse:collapse;text-align:left;font-size:.89rem;line-height:1.55}
+.assessment-table th,.assessment-table td{padding:11px 10px;border-bottom:1px solid #e7dff0;vertical-align:top}
+.assessment-table thead th{background:#eee5fa;color:#473064;font-weight:800}
+.assessment-table tbody th{font-weight:800;white-space:nowrap}
+.assessment-table a{color:#5c398c;text-decoration:underline;text-underline-offset:3px}
+.assessment-table tbody tr:last-child th,.assessment-table tbody tr:last-child td{border-bottom:0}
+.assessment-comparison-note{margin:12px 0 0;font-size:.77rem;color:#655d75;line-height:1.6}
+@media(max-width:560px){.assessment-comparison{padding:12px;margin:16px 0}.assessment-table{min-width:0;display:block}.assessment-table thead{display:none}.assessment-table tbody,.assessment-table tr,.assessment-table th,.assessment-table td{display:block;width:100%}.assessment-table tr{padding:11px 0;border-bottom:1px solid #e7dff0}.assessment-table th,.assessment-table td{padding:3px 6px;border:0}.assessment-table tbody tr:last-child{border-bottom:0}.assessment-table tbody td:nth-child(2)::before{content:'❓ ';}.assessment-table tbody td:nth-child(3)::before{content:'✨ ';}}
