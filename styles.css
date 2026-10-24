@@ -85,9 +85,9 @@ body.quest-open{overflow:hidden}
 .island-walker.npc-facing-left img{scale:-1 1}
 .island-walker .walker-tag{position:absolute;bottom:calc(100% + 3px);opacity:0;pointer-events:none;transition:opacity .2s;font-size:10px}
 .island-walker:hover .walker-tag,.island-walker:focus-visible .walker-tag{opacity:1}
-.walker-nana{left:76%!important;top:61%!important}.walker-hua{left:25%!important;top:72%!important}
+.walker-nana{left:76%;top:61%}.walker-hua{left:25%;top:72%}
 @keyframes npc-walk-cycle{0%{translate:0 0;rotate:-3deg}50%{translate:0 -5px;rotate:3deg}100%{translate:0 0;rotate:-3deg}}
-@media(max-width:600px){.island-walker{width:58px!important;height:78px!important}.walker-nana{left:77%!important;top:58%!important}.walker-hua{left:26%!important;top:70%!important}}
+@media(max-width:600px){.island-walker{width:58px!important;height:78px!important}.walker-nana{left:77%;top:58%}.walker-hua{left:26%;top:70%}}
 @media(prefers-reduced-motion:reduce){.island-walker img{animation:none!important}}
 
 
@@ -138,3 +138,7 @@ body.quest-open{overflow:hidden}
 #homeView .island-walker.npc-moving .npc-walk-sprite{animation:npc-v25-frames .58s steps(4,end) infinite}
 @media(max-width:600px){#homeView .island-walker{width:49px!important;height:69px!important}#homeView .island-walker .npc-speech{display:none}}
 @media(prefers-reduced-motion:reduce){#homeView .island-walker .npc-walk-sprite{display:none!important}#homeView .island-walker img{opacity:1!important}}
+
+/* V2.7: let inline map coordinates win over previous fixed NPC positions. */
+#homeView #islandWalkers .island-walker{left:var(--npc-x,76%);top:var(--npc-y,61%)}
+#homeView #islandWalkers{overflow:visible!important}

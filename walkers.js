@@ -10,7 +10,7 @@ const actors=[
 const lang=()=>document.documentElement.lang?.startsWith('en')?'en':'zh';
 const canPlay=()=>!document.hidden&&!reduced.matches&&home.classList.contains('active')&&document.getElementById('dialogueOverlay')?.hidden!==false&&document.getElementById('questOverlay')?.hidden!==false&&document.getElementById('modal')?.hidden!==false;
 const isMobile=()=>matchMedia('(max-width: 600px)').matches;
-function setPos(a,p){a.el.style.left=p[0]+'%';a.el.style.top=p[1]+'%';}
+function setPos(a,p){a.el.style.setProperty('--npc-x',p[0]+'%');a.el.style.setProperty('--npc-y',p[1]+'%');}
 function stopActor(a){clearTimeout(a.timer);a.timer=null;a.animation?.cancel();a.animation=null;a.el?.classList.remove('npc-moving','npc-reading','npc-sip','npc-thinking','npc-wave','npc-facing-left','npc-speaking');}
 function stop(){actors.forEach(stopActor)}
 function speak(a){const el=a.el.querySelector('.npc-speech');if(el){el.textContent=a.lines[lang()][a.phase%3];a.el.classList.add('npc-speaking')}}
@@ -22,8 +22,9 @@ function nextStep(a){if(!canPlay())return;const path=isMobile()?a.path.filter((_
  a.el.classList.toggle('npc-facing-left',dx<0);a.el.classList.add('npc-moving');
  const distance=Math.hypot(dx,dy);const duration=Math.max(850,Math.min(3600,distance*440/a.speed*4));
  // Animate percentages directly on the same hero-level overlay. No clipped local walk box.
- a.animation=a.el.animate([{left:from[0]+'%',top:from[1]+'%'},{left:to[0]+'%',top:to[1]+'%'}],{duration,easing:'linear',fill:'forwards'});
- a.animation.onfinish=()=>{a.animation=null;setPos(a,to);a.el.getAnimations().forEach(anim=>{if(anim.playState==='finished')anim.cancel()});a.el.classList.remove('npc-moving');a.step++;if(canPlay()){if(a.step%3===0)a.timer=setTimeout(()=>idle(a),350);else a.timer=setTimeout(()=>nextStep(a),160)}};
+ const bounds=hero.getBoundingClientRect();const mx=(to[0]-from[0])*bounds.width/100;const my=(to[1]-from[1])*bounds.height/100;
+ a.animation=a.el.animate([{transform:'translate(-50%,-100%) translate(0px,0px)'},{transform:`translate(-50%,-100%) translate(${mx}px,${my}px)`}],{duration,easing:'linear',fill:'forwards'});
+ a.animation.onfinish=()=>{setPos(a,to);a.animation?.cancel();a.animation=null;a.el.classList.remove('npc-moving');a.step++;if(canPlay()){if(a.step%3===0)a.timer=setTimeout(()=>idle(a),350);else a.timer=setTimeout(()=>nextStep(a),160)}};
  }
 function refresh(){stop();for(const [i,a] of actors.entries()){if(!a.el)continue;setPos(a,a.path[a.step%a.path.length]);if(canPlay())a.timer=setTimeout(()=>idle(a),850+i*2300)}}
 for(const a of actors){if(!a.el)continue;
