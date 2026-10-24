@@ -12,6 +12,7 @@ for(const a of actors){if(!a.el)continue;
  const scene=document.createElement('span');scene.className='npc-scene';scene.setAttribute('aria-hidden','true');
  scene.innerHTML='<span class="npc-shadow"></span><span class="npc-action npc-action-book">📖</span><span class="npc-action npc-action-cup">☕</span><span class="npc-sparkle">✦</span><span class="npc-thought"></span>';
  a.el.appendChild(scene);
+ const sprite=document.createElement('span');sprite.className='npc-walk-sprite';sprite.setAttribute('aria-hidden','true');a.el.appendChild(sprite);
  const speech=document.createElement('span');speech.className='npc-speech';speech.setAttribute('aria-live','off');a.el.appendChild(speech);a.speech=speech;
 }
 function clearActor(a){clearTimeout(a.timer);a.timer=null;a.animation?.cancel();a.animation=null;a.el?.classList.remove('npc-moving','npc-reading','npc-sip','npc-thinking','npc-wave','npc-facing-left','npc-speaking');if(a.el)a.el.style.translate='0px 0px';}
