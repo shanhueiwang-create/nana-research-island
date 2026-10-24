@@ -89,3 +89,33 @@ body.quest-open{overflow:hidden}
 @keyframes npc-walk-cycle{0%{translate:0 0;rotate:-3deg}50%{translate:0 -5px;rotate:3deg}100%{translate:0 0;rotate:-3deg}}
 @media(max-width:600px){.island-walker{width:58px!important;height:78px!important}.walker-nana{left:77%!important;top:58%!important}.walker-hua{left:26%!important;top:70%!important}}
 @media(prefers-reduced-motion:reduce){.island-walker img{animation:none!important}}
+
+
+/* V2.4: gentle living-character micro-interactions. Keep existing transparent sprites. */
+.island-walker{isolation:isolate}
+.island-walker img{position:relative;z-index:2;transform-origin:50% 92%}
+.island-walker.npc-moving img{animation:npc-v24-step .44s ease-in-out infinite alternate!important}
+@keyframes npc-v24-step{0%{transform:translateY(0) rotate(-3deg)}100%{transform:translateY(-4px) rotate(3deg)}}
+.npc-scene{position:absolute;inset:0;pointer-events:none;z-index:3}
+.npc-shadow{position:absolute;bottom:0;left:22%;width:56%;height:8%;border-radius:50%;background:#11172b55;filter:blur(3px);transform:scale(1);transition:transform .3s}
+.npc-moving .npc-shadow{animation:npc-v24-shadow .44s ease-in-out infinite alternate}
+@keyframes npc-v24-shadow{to{transform:scale(.72);opacity:.55}}
+.npc-action{position:absolute;display:none;font-size:clamp(17px,2.2vw,26px);filter:drop-shadow(0 2px 2px #15142c88);z-index:4}
+.npc-action-book{right:-8%;top:45%;transform:rotate(-15deg)}
+.npc-reading .npc-action-book{display:block;animation:npc-v24-book 1.2s ease-in-out infinite alternate}
+@keyframes npc-v24-book{to{transform:rotate(8deg) translateY(-2px)}}
+.npc-action-cup{right:-12%;top:36%}
+.npc-sip .npc-action-cup{display:block;animation:npc-v24-sip 1.5s ease-in-out infinite alternate}
+@keyframes npc-v24-sip{to{transform:translate(-7px,-15px) rotate(-13deg)}}
+.npc-thinking img{animation:npc-v24-think 1.4s ease-in-out infinite alternate!important}
+@keyframes npc-v24-think{to{transform:rotate(-6deg) translateY(-2px)}}
+.npc-wave img{animation:npc-v24-wave .75s ease-in-out infinite alternate!important}
+@keyframes npc-v24-wave{to{transform:rotate(7deg) translateY(-3px)}}
+.npc-sparkle{position:absolute;right:0;top:15%;font-size:20px;color:#ffe18a;opacity:0;text-shadow:0 0 8px #fff}
+.npc-thinking .npc-sparkle,.npc-wave .npc-sparkle{animation:npc-v24-spark 1.1s ease-in-out infinite alternate}
+@keyframes npc-v24-spark{to{opacity:1;transform:translateY(-7px) rotate(25deg)}}
+.npc-speech{position:absolute;z-index:6;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%) scale(.95);min-width:130px;max-width:210px;width:max-content;padding:9px 12px;border-radius:15px;background:#fffdf8;color:#392f57;font-size:clamp(11px,1vw,13px);font-weight:700;line-height:1.4;box-shadow:0 4px 15px #12142b77;border:1px solid #e6d5ff;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s;text-align:center;white-space:normal}
+.npc-speech:after{content:'';position:absolute;top:100%;left:calc(50% - 7px);border:7px solid transparent;border-top-color:#fffdf8}
+.npc-speaking .npc-speech{opacity:1;visibility:visible;transform:translateX(-50%) scale(1)}
+@media(max-width:600px){.npc-speech{min-width:95px;max-width:145px;font-size:10px;padding:6px 7px}.npc-action{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.npc-scene *,.npc-speech,.island-walker img{animation:none!important;transition:none!important}.npc-speech{display:none}}
