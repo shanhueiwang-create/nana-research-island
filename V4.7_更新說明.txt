@@ -1,0 +1,1 @@
+V4.7：第一章新增原著四位守護者人物肖像與每題角色登場。角色原名：蒼月、星野、夜嵐、冥王。保留統計遊戲、證書、國際交流館、華仔等原有功能。上傳 GitHub 時需同時上傳 statistics/index.html 與 statistics/book-four-guardians.jpg。

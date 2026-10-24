@@ -1,0 +1,1 @@
+V4.5: 國際交流故事館位於國際企業島彈窗；統計冒險島彈窗新增23章闖關入口。請解壓後將所有檔案與資料夾上傳至GitHub repository根目錄，等待Actions/Pages部署成功，重新整理網站。ZIP不能直接上傳GitHub Pages作為網站。
