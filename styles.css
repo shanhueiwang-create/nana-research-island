@@ -76,3 +76,16 @@ body.quest-open{overflow:hidden}
  .certificate-date{font-size:13pt!important;color:#6d6277}
  .certificate-paper small{font-size:10pt;margin-top:8mm;color:#6d6277}
 }
+
+/* V2.3 — isolated chibi NPCs, no rectangular profile images. */
+.island-walkers{overflow:hidden!important;z-index:8!important;pointer-events:none}
+.island-walker{width:clamp(55px,7vw,92px)!important;height:clamp(77px,10vw,125px)!important;overflow:visible;pointer-events:auto;transform:translate(-50%,-100%);transition:none}
+.island-walker img{height:100%!important;width:100%!important;object-fit:contain!important;object-position:bottom!important;filter:drop-shadow(0 5px 4px rgba(12,14,43,.55))!important;transform-origin:50% 90%;animation:none!important}
+.island-walker.npc-moving img{animation:npc-walk-cycle .38s steps(2,end) infinite!important}
+.island-walker.npc-facing-left img{scale:-1 1}
+.island-walker .walker-tag{position:absolute;bottom:calc(100% + 3px);opacity:0;pointer-events:none;transition:opacity .2s;font-size:10px}
+.island-walker:hover .walker-tag,.island-walker:focus-visible .walker-tag{opacity:1}
+.walker-nana{left:76%!important;top:61%!important}.walker-hua{left:25%!important;top:72%!important}
+@keyframes npc-walk-cycle{0%{translate:0 0;rotate:-3deg}50%{translate:0 -5px;rotate:3deg}100%{translate:0 0;rotate:-3deg}}
+@media(max-width:600px){.island-walker{width:58px!important;height:78px!important}.walker-nana{left:77%!important;top:58%!important}.walker-hua{left:26%!important;top:70%!important}}
+@media(prefers-reduced-motion:reduce){.island-walker img{animation:none!important}}
