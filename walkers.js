@@ -1,34 +1,41 @@
 (()=>{'use strict';
 const home=document.getElementById('homeView');
+const hero=document.querySelector('#homeView .hero');
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-if(!home)return;
+if(!home||!hero)return;
 const actors=[
- {id:'nanaWalker',host:'nana',span:34,labels:{zh:['今天的統計冒險開始囉！📊','讓我翻翻研究筆記… 📖','發現有趣的資料了！✨'],en:['Ready for a statistics adventure? 📊','Let me check my research notes… 📖','A fascinating finding! ✨']},actions:['reading','thinking','wave']},
- {id:'huaWalker',host:'hua',span:39,labels:{zh:['先喝口咖啡，再想研究問題 ☕','五星評論真的可信嗎？','今天也要研究消費者心理！'],en:['Coffee first, research next ☕','Can we trust five-star reviews?','Let’s explore consumer psychology!']},actions:['sip','thinking','wave']}
-].map(c=>({...c,el:document.getElementById(c.id),timer:null,animation:null,idx:0}));
+ {id:'nanaWalker',host:'nana',path:[[76,61],[73,59],[68,55],[62,52],[57,51],[53,54],[51,57],[53,54],[57,51],[62,52],[68,55],[73,59],[76,61]],lines:{zh:['我要從統計島去研究總部看看！📚','經過橋梁，研究冒險繼續！✨','回到統計島囉！📊'],en:['Off to Research Headquarters! 📚','Across the bridge, on a research adventure! ✨','Back to Statistics Island! 📊']},actions:['reading','thinking','wave'],speed:5.0},
+ {id:'huaWalker',host:'hua',path:[[25,72],[28,69],[33,64],[38,60],[43,56],[49,55],[51,58],[49,55],[43,56],[38,60],[33,64],[28,69],[25,72]],lines:{zh:['咖啡帶著走，去研究總部聊聊！☕','跨島研究，靈感不斷！','先回研究館整理想法！'],en:['Coffee in hand—off to Headquarters! ☕','Cross-island ideas in motion!','Back to the research hall!']},actions:['sip','thinking','wave'],speed:5.5}
+].map(a=>({...a,el:document.getElementById(a.id),timer:null,animation:null,step:0,phase:0}));
 const lang=()=>document.documentElement.lang?.startsWith('en')?'en':'zh';
 const canPlay=()=>!document.hidden&&!reduced.matches&&home.classList.contains('active')&&document.getElementById('dialogueOverlay')?.hidden!==false&&document.getElementById('questOverlay')?.hidden!==false&&document.getElementById('modal')?.hidden!==false;
-for(const a of actors){if(!a.el)continue;
- const scene=document.createElement('span');scene.className='npc-scene';scene.setAttribute('aria-hidden','true');
- scene.innerHTML='<span class="npc-shadow"></span><span class="npc-action npc-action-book">📖</span><span class="npc-action npc-action-cup">☕</span><span class="npc-sparkle">✦</span><span class="npc-thought"></span>';
- a.el.appendChild(scene);
- const sprite=document.createElement('span');sprite.className='npc-walk-sprite';sprite.setAttribute('aria-hidden','true');a.el.appendChild(sprite);
- const speech=document.createElement('span');speech.className='npc-speech';speech.setAttribute('aria-live','off');a.el.appendChild(speech);a.speech=speech;
-}
-function clearActor(a){clearTimeout(a.timer);a.timer=null;a.animation?.cancel();a.animation=null;a.el?.classList.remove('npc-moving','npc-reading','npc-sip','npc-thinking','npc-wave','npc-facing-left','npc-speaking');if(a.el)a.el.style.translate='0px 0px';}
-function stop(){actors.forEach(clearActor)}
-function speak(a,idx){a.speech.textContent=a.labels[lang()][idx];a.el.classList.add('npc-speaking');}
-function idle(a){if(!canPlay())return;const i=a.idx++%a.actions.length;const action=a.actions[i];a.el.classList.add('npc-'+action);speak(a,i);a.timer=setTimeout(()=>{a.el.classList.remove('npc-'+action,'npc-speaking');if(canPlay())a.timer=setTimeout(()=>walk(a),1000)},3400);}
-function walk(a){if(!canPlay())return;const dx=(Math.random()>.5?1:-1)*a.span;const dy=(Math.random()-.5)*8;
+const isMobile=()=>matchMedia('(max-width: 600px)').matches;
+function setPos(a,p){a.el.style.left=p[0]+'%';a.el.style.top=p[1]+'%';}
+function stopActor(a){clearTimeout(a.timer);a.timer=null;a.animation?.cancel();a.animation=null;a.el?.classList.remove('npc-moving','npc-reading','npc-sip','npc-thinking','npc-wave','npc-facing-left','npc-speaking');}
+function stop(){actors.forEach(stopActor)}
+function speak(a){const el=a.el.querySelector('.npc-speech');if(el){el.textContent=a.lines[lang()][a.phase%3];a.el.classList.add('npc-speaking')}}
+function idle(a){if(!canPlay())return;const action=a.actions[a.phase%3];a.el.classList.add('npc-'+action);speak(a);a.timer=setTimeout(()=>{a.el.classList.remove('npc-'+action,'npc-speaking');a.phase++;if(canPlay())nextStep(a)},2600)}
+function nextStep(a){if(!canPlay())return;const path=isMobile()?a.path.filter((_,i)=>[0,1,2,3,4,8,9,10,11,12].includes(i)):a.path;
+ const i=a.step%path.length;const j=(i+1)%path.length;const from=path[i],to=path[j];
+ setPos(a,from);const dx=to[0]-from[0],dy=to[1]-from[1];
+ if(Math.abs(dx)<.01&&Math.abs(dy)<.01){a.step++;idle(a);return}
  a.el.classList.toggle('npc-facing-left',dx<0);a.el.classList.add('npc-moving');
- a.animation=a.el.animate([{translate:'0px 0px'},{translate:`${dx}px ${dy}px`,offset:.5},{translate:'0px 0px'}],{duration:5600+Math.random()*900,easing:'ease-in-out'});
- a.animation.onfinish=()=>{a.animation=null;a.el.classList.remove('npc-moving','npc-facing-left');if(canPlay())a.timer=setTimeout(()=>idle(a),400)};
+ const distance=Math.hypot(dx,dy);const duration=Math.max(850,Math.min(3600,distance*440/a.speed*4));
+ // Animate percentages directly on the same hero-level overlay. No clipped local walk box.
+ a.animation=a.el.animate([{left:from[0]+'%',top:from[1]+'%'},{left:to[0]+'%',top:to[1]+'%'}],{duration,easing:'linear',fill:'forwards'});
+ a.animation.onfinish=()=>{a.animation=null;setPos(a,to);a.el.getAnimations().forEach(anim=>{if(anim.playState==='finished')anim.cancel()});a.el.classList.remove('npc-moving');a.step++;if(canPlay()){if(a.step%3===0)a.timer=setTimeout(()=>idle(a),350);else a.timer=setTimeout(()=>nextStep(a),160)}};
+ }
+function refresh(){stop();for(const [i,a] of actors.entries()){if(!a.el)continue;setPos(a,a.path[a.step%a.path.length]);if(canPlay())a.timer=setTimeout(()=>idle(a),850+i*2300)}}
+for(const a of actors){if(!a.el)continue;
+ a.el.querySelectorAll('.npc-scene,.npc-walk-sprite,.npc-speech').forEach(n=>n.remove());
+ const scene=document.createElement('span');scene.className='npc-scene';scene.setAttribute('aria-hidden','true');scene.innerHTML='<span class="npc-shadow"></span><span class="npc-action npc-action-book">📖</span><span class="npc-action npc-action-cup">☕</span><span class="npc-sparkle">✦</span>';
+ const sprite=document.createElement('span');sprite.className='npc-walk-sprite';sprite.setAttribute('aria-hidden','true');
+ const speech=document.createElement('span');speech.className='npc-speech';speech.setAttribute('aria-live','off');a.el.append(scene,sprite,speech);setPos(a,a.path[0]);
+ a.el.addEventListener('click',()=>{stop();document.getElementById('openDialogue')?.click();const b=[...document.querySelectorAll('#dialogueHosts button')].find(b=>b.textContent.includes(a.host==='nana'?'娜娜':'華仔')||b.textContent.toLowerCase().includes(a.host==='nana'?'nana':'hua'));b?.click()});
 }
-function refresh(){stop();if(canPlay())actors.forEach((a,i)=>{if(a.el)a.timer=setTimeout(()=>idle(a),700+i*1600)});}
-actors.forEach(a=>a.el?.addEventListener('click',()=>{stop();document.getElementById('openDialogue')?.click();const btn=[...document.querySelectorAll('#dialogueHosts button')].find(b=>b.textContent.includes(a.host==='nana'?'娜娜':'華仔')||b.textContent.toLowerCase().includes(a.host==='nana'?'nana':'hua'));btn?.click();}));
-document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setTimeout(refresh,80)));
-['closeDialogue','closeQuest'].forEach(id=>document.getElementById(id)?.addEventListener('click',()=>setTimeout(refresh,120)));
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setTimeout(refresh,100)));
+['closeDialogue','closeQuest','closeModal'].forEach(id=>document.getElementById(id)?.addEventListener('click',()=>setTimeout(refresh,140)));
 document.addEventListener('visibilitychange',refresh);reduced.addEventListener?.('change',refresh);window.addEventListener('pagehide',stop);
-const langObserver=new MutationObserver(()=>{actors.forEach(a=>{if(a.el.classList.contains('npc-speaking'))a.speech.textContent=a.labels[lang()][(a.idx-1+a.actions.length)%a.actions.length]})});langObserver.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+new MutationObserver(()=>{actors.forEach(a=>{if(a.el?.classList.contains('npc-speaking'))a.el.querySelector('.npc-speech').textContent=a.lines[lang()][a.phase%3]})}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
 refresh();
 })();

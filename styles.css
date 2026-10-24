@@ -129,3 +129,12 @@ body.quest-open{overflow:hidden}
 .island-walker.npc-facing-left .npc-walk-sprite{transform:scaleX(-1)}
 @keyframes npc-v25-frames{from{background-position:0 0}to{background-position:100% 0}}
 @media(prefers-reduced-motion:reduce){.island-walker .npc-walk-sprite{display:none!important}}
+
+/* V2.6 cross-island walking routes: hero-level overlay, no local clip box */
+#homeView .hero{isolation:isolate}
+#homeView .island-walkers{position:absolute;inset:0;overflow:visible!important;z-index:9!important;pointer-events:none}
+#homeView .island-walker{position:absolute;transform:translate(-50%,-100%)!important;pointer-events:auto;will-change:left,top;contain:none}
+#homeView .island-walker .npc-walk-sprite{background-size:400% 100%}
+#homeView .island-walker.npc-moving .npc-walk-sprite{animation:npc-v25-frames .58s steps(4,end) infinite}
+@media(max-width:600px){#homeView .island-walker{width:49px!important;height:69px!important}#homeView .island-walker .npc-speech{display:none}}
+@media(prefers-reduced-motion:reduce){#homeView .island-walker .npc-walk-sprite{display:none!important}#homeView .island-walker img{opacity:1!important}}
