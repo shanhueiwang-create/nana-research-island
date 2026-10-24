@@ -1,0 +1,10 @@
+娜娜教授研究島 V3.3｜人格探索實驗室整合版
+
+基於使用者提供的 AnotherMe_V32_Retry(1).zip，保留既有檔案及功能。
+新增 personality/index.html：NPPEI-32 v1.9 原圖角色版（32 題、八關、四構面、16 型、三職涯、PDF）。
+新增入口：研究島首頁（主畫面）及 another-me/index.html（心靈小說館）。
+未修改原本的 app.js、data.js、styles.css、walkers.js、quest.js、flight.js、interactions.js。
+
+使用方法：解壓縮後，開啟根目錄 index.html；點選「娜娜教授人格探索實驗室」。
+部署方法：把解壓縮後的全部檔案及資料夾一起上傳到原 GitHub Pages 網站倉庫根目錄，保留相對路徑。請先備份現有網站。
+注意：未經實際 iOS/Android 裝置驗證；PDF 仍由 NPPEI v1.9 原版程式生成。
