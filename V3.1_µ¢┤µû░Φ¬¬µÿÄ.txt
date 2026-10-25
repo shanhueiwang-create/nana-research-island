@@ -1,0 +1,1 @@
+V3.1：以 V3.0 為基礎，新增使用者提供的越南企業參訪團體合照於 exchange/vietnam-ifair.html，並從另一篇越南故事連回照片頁。圖片已內嵌到 assets/vietnam-company-group-photo.webp，不依賴外站載入。未確認團體成員身分，因此不在圖片說明中逐一指認。保留國際護照與六站集章功能。
