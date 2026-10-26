@@ -1,0 +1,12 @@
+V6.2｜Another Me 新書故事館與主題影片
+
+更新內容：
+1. another-me/book.html 新書專頁（含小說故事、世代議題、心理學理論、研究說明）
+2. another-me/another-me-book-poster.png、another-me/another-me-story-poster.png 兩張原始海報
+3. another-me/another-me-theme.mp4：由使用者上傳影片轉為適合網頁播放的 MP4（H.264/AAC，保留聲音）
+4. another-me/index.html 新增新書入口
+5. app.js AI 與另一個我之島的彈出視窗新增新書入口
+
+部署：將 ZIP 解壓縮後的檔案按相同路徑上傳 GitHub 儲存庫根目錄。勿只上傳 ZIP 本身。
+GitHub Pages 部署後，點「AI與另一個我」→「新書故事館・海報與主題影片」。
+注意：GitHub 可能對較大的 MP4 顯示不同的網頁預覽方式，請使用 Upload files 或 Git 推送；本檔小於 GitHub 單檔100MB限制。
